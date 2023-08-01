@@ -1,0 +1,1 @@
+from engineering.coulomb_friction import Friction

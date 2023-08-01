@@ -1,0 +1,12 @@
+numpy
+plotly
+pytest
+python-json-logger
+flask
+flask-jwt-extended
+flask-smorest
+flask-migrate
+sqlalchemy
+flask-sqlalchemy
+gunicorn
+marshmallow
