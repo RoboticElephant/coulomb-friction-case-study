@@ -91,4 +91,4 @@ if __name__ == "__main__":
 
 # Command to Build and run Docker
 # docker build -t case-study-api .
-# docker run -dp 5005:5000 -w /app -v "$(pwd):/app" case-study-api
+# docker run -dp 5005:5000 case-study-api
