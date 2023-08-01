@@ -8,8 +8,14 @@ from marshmallow import Schema, fields
 #     password = fields.Str(required=True, load_only=True)
 
 
-class FrictionSchema(Schema):
+class PlainFrictionSchema(Schema):
     id = fields.Int(dump_only=True)
     init_velocity = fields.Float()
     coef_friction = fields.Float()
     gravity = fields.Float()
+
+
+class FrictionSchema(PlainFrictionSchema):
+    idx = fields.List(fields.Float())
+    velocities = fields.List(fields.Float())
+    distances = fields.List(fields.Float())

@@ -1,3 +1,4 @@
+import json
 import logging
 
 from flask.views import MethodView
@@ -6,7 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from db import db
 from models import FrictionModel
-from schemas import FrictionSchema
+from schemas import PlainFrictionSchema, FrictionSchema
 from engineering import Friction
 #
 # import base64
@@ -25,11 +26,9 @@ class Coulomb(MethodView):
         logger.info(f"Getting values for id: {friction_id}")
         response = FrictionModel.query.get_or_404(friction_id)
         logger.info(f"Successfully retrieved the data for entry.")
-
-        cf = Friction(v0=response.init_velocity, mu=response.coef_friction, g=response.gravity)
-        v_indices, velocities = cf.get_all_velocities()
-        # d_indices, distances = cf.get_distance_traveled()
-        print(velocities)
+        response.velocities = json.loads(response.velocities)
+        response.idx = json.loads(response.idx)
+        response.distances = json.loads(response.distances)
 
         # fig = Figure()
         # ax = fig.subplots(nrows=2, ncols=1)
@@ -46,15 +45,25 @@ class Coulomb(MethodView):
 
 @blp.route("/friction")
 class CoulombFriction(MethodView):
-    @blp.arguments(FrictionSchema)
-    @blp.response(200, FrictionSchema)
+    @blp.arguments(PlainFrictionSchema)
+    @blp.response(200, PlainFrictionSchema)
     def post(self, friction_data):
         v0 = verify_input_value(friction_data['init_velocity'])
         g = verify_input_value(friction_data['gravity'])
         mu = verify_input_value(friction_data['coef_friction'])
         print(f"v0: {v0}, g: {g}, mu: {mu}")
+        cf = Friction(v0=v0, mu=mu, g=g)
+        idx, vel = cf.get_all_velocities()
+        _, dist = cf.get_distance_traveled()
 
-        friction = FrictionModel(init_velocity=v0, coef_friction=mu, gravity=g)
+        friction = FrictionModel(
+            init_velocity=v0,
+            coef_friction=mu,
+            gravity=g,
+            velocities=json.dumps(list(vel)),
+            idx=json.dumps(list(idx)),
+            distances=json.dumps(list(dist))
+        )
 
         try:
             db.session.add(friction)

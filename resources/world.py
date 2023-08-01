@@ -1,16 +1,12 @@
-from flask.views import MethodView
 from flask_smorest import Blueprint
 
-import base64
-from io import BytesIO
-from matplotlib.figure import Figure
 
 blp = Blueprint("world", __name__, description="This is the route location")
 
 
 @blp.route("/")
 def hello():
-    return "Hello World!"
+    return "Welcome to Tenaris Case Study on Coulomb Friction by Josh Blakely"
     # fig = Figure()
     # ax = fig.subplots()
     # ax.plot([1, 2])
