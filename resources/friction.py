@@ -9,14 +9,45 @@ from db import db
 from models import FrictionModel
 from schemas import PlainFrictionSchema, FrictionSchema
 from engineering import Friction
-#
-# import base64
-# from io import BytesIO
-# from matplotlib.figure import Figure
+
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 logger = logging.getLogger(__name__)
 
 blp = Blueprint("friction", __name__, description="Coulomb Friction")
+
+
+@blp.route("/friction/plot/<int:friction_id>")
+class PlotCoulombFriction(MethodView):
+    @blp.response(200, PlainFrictionSchema)
+    def get(self, friction_id):
+        logger.info(f"Plotting data for id: {friction_id}")
+        response = FrictionModel.query.get_or_404(friction_id)
+
+        indices = json.loads(response.idx)
+        velocities = json.loads(response.velocities)
+        distances = json.loads(response.distances)
+
+        fig = make_subplots(rows=2, subplot_titles=("Position vs. Time", "Velocity vs. Time"))
+        # Add traces
+        fig.add_trace(go.Scatter(x=indices, y=distances, name="Distance"), row=1, col=1)
+        fig.add_trace(go.Scatter(x=indices, y=velocities, name="Velocity"), row=2, col=1)
+
+        # Update xaxis properties
+        fig.update_xaxes(title_text="Time (s)", row=1, col=1)
+        fig.update_xaxes(title_text="Time (s)", row=2, col=1)
+
+        # Update yaxis properties
+        fig.update_yaxes(title_text="Position (m)", row=1, col=1)
+        fig.update_yaxes(title_text="Velocity (m/s)", row=2, col=1)
+
+        # Update title and subtitle for plot
+        fig.update_layout(title=f"Coulomb Friction for a Block on a Horizontal Plane:"
+                                f"<br><sup>Initial Velocity: {response.init_velocity} m/s, "
+                                f"Friction Coefficient: {response.coef_friction}, "
+                                f"Gravity: {response.gravity} m/s^2</sup>")
+        fig.show()
 
 
 @blp.route("/friction/<int:friction_id>")
@@ -30,21 +61,16 @@ class Coulomb(MethodView):
         response.idx = json.loads(response.idx)
         response.distances = json.loads(response.distances)
 
-        # fig = Figure()
-        # ax = fig.subplots(nrows=2, ncols=1)
-        # print(ax)
-        # ax[0].plot(xs=v_indices, ys=velocities)
-        #
-        # buf = BytesIO()
-        # fig.savefig(buf, format='png')
-        #
-        # data = base64.b64encode(buf.getbuffer()).decode("ascii")
-        # return f"<img src='data:image/png;base64,{data}'/> <br> <img src='data:image/png;base64,{data}'/>"
         return response
 
 
 @blp.route("/friction")
 class CoulombFriction(MethodView):
+
+    @blp.response(200, PlainFrictionSchema(many=True))
+    def get(self):
+        return FrictionModel.query.all()
+
     @blp.arguments(PlainFrictionSchema)
     @blp.response(200, PlainFrictionSchema)
     def post(self, friction_data):

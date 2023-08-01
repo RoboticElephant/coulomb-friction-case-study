@@ -88,14 +88,6 @@ def create_app(db_url=None):
 if __name__ == "__main__":
     create_app()
 
-# @app.route("/")
-# def hello():
-#     fig = Figure()
-#     ax = fig.subplots()
-#     ax.plot([1, 2])
-#
-#     buf = BytesIO()
-#     fig.savefig(buf, format='png')
-#
-#     data = base64.b64encode(buf.getbuffer()).decode("ascii")
-#     return f"<img src='data:image/png;base64,{data}'/> <br> <img src='data:image/png;base64,{data}'/>"
+# Command to Build and run Docker
+# docker build -t case-study-api .
+# docker run -dp 5005:5000 -w /app -v "$(pwd):/app" case-study-api
