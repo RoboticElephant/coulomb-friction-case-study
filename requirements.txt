@@ -1,12 +1,11 @@
 numpy
 plotly
 pytest
+python-dotenv
 python-json-logger
 flask
 flask-jwt-extended
 flask-smorest
-flask-migrate
 sqlalchemy
 flask-sqlalchemy
-gunicorn
 marshmallow

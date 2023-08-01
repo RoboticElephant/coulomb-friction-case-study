@@ -2,15 +2,15 @@ import logging_config
 import logging
 import os
 
-from flask import Flask, jsonify
+from flask import Flask
 from flask_smorest import Api
 # from flask_jwt_extended import JWTManager
+from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
 
 from db import db
 import models
-# from blocklist import BLOCKLIST
 
 from resources.world import blp as WorldBlueprint
 from resources.friction import blp as FrictionBlueprint
@@ -18,6 +18,7 @@ from resources.friction import blp as FrictionBlueprint
 
 def create_app(db_url=None):
     app = Flask(__name__)
+    load_dotenv()
 
     # Title of the API
     app.config["API_TITLE"] = "Tenaris Case Study REST API"
