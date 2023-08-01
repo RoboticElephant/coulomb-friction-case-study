@@ -11,6 +11,7 @@ class Friction:
     Assumptions:
     - Block is sliding on a horizontal surface
     - No other forces are being imparted into the system during movement.
+    - Units are in SI only
     """
     def __init__(self, mu, v0, g, steps=20):
         self.mu = mu
@@ -43,9 +44,11 @@ class Friction:
         It will also update the initial velocity.
 
         :param time: elapsed time
-        :param v0: Initial velocity if different then class's variable
         :return: current velocity at a given time
         """
+        if time < 0:
+            raise ValueError("Time can't be negative.")
+
         return self.v0 + self.acceleration * time
 
     def get_all_velocities(self):
