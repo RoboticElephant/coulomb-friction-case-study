@@ -2,9 +2,9 @@ import logging_config
 import logging
 import os
 
+# from flask_jwt_extended import JWTManager
 from flask import Flask
 from flask_smorest import Api
-# from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 from db import db
 import models
 
-from resources.world import blp as WorldBlueprint
+from resources.home import blp as HomeBlueprint
 from resources.friction import blp as FrictionBlueprint
 
 
@@ -81,7 +81,7 @@ def create_app(db_url=None):
     # def missing_token_callback(error):
     #     jsonify({"description": "Request does not contain an access token.", "error": "authorization_required"}), 401
 
-    api.register_blueprint(WorldBlueprint)
+    api.register_blueprint(HomeBlueprint)
     api.register_blueprint(FrictionBlueprint)
     return app
 
@@ -92,3 +92,6 @@ if __name__ == "__main__":
 # Command to Build and run Docker
 # docker build -t case-study-api .
 # docker run -dp 5005:5000 case-study-api
+
+# run pytest for unit test
+# pytest --cov
