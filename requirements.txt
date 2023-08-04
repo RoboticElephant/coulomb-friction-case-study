@@ -1,5 +1,4 @@
 numpy
-plotly
 pytest
 pytest-cov
 python-dotenv
@@ -11,4 +10,5 @@ sqlalchemy
 flask-sqlalchemy
 marshmallow
 
+plotly
 requests
