@@ -10,44 +10,44 @@ from models import FrictionModel
 from schemas import PlainFrictionSchema, FrictionSchema
 from engineering import Friction
 
-from plotly.subplots import make_subplots
-import plotly.graph_objects as go
+# from plotly.subplots import make_subplots
+# import plotly.graph_objects as go
 
 logger = logging.getLogger(__name__)
 
 blp = Blueprint("friction", __name__, description="Coulomb Friction")
 
 
-@blp.route("/friction/plot/<int:friction_id>")
-class PlotCoulombFriction(MethodView):
-    @blp.response(200, PlainFrictionSchema)
-    def get(self, friction_id):
-        logger.info(f"Plotting data for id: {friction_id}")
-        response = FrictionModel.query.get_or_404(friction_id)
-
-        indices = json.loads(response.idx)
-        velocities = json.loads(response.velocities)
-        distances = json.loads(response.distances)
-
-        fig = make_subplots(rows=2, subplot_titles=("Position vs. Time", "Velocity vs. Time"))
-        # Add traces
-        fig.add_trace(go.Scatter(x=indices, y=distances, name="Distance"), row=1, col=1)
-        fig.add_trace(go.Scatter(x=indices, y=velocities, name="Velocity"), row=2, col=1)
-
-        # Update xaxis properties
-        fig.update_xaxes(title_text="Time (s)", row=1, col=1)
-        fig.update_xaxes(title_text="Time (s)", row=2, col=1)
-
-        # Update yaxis properties
-        fig.update_yaxes(title_text="Position (m)", row=1, col=1)
-        fig.update_yaxes(title_text="Velocity (m/s)", row=2, col=1)
-
-        # Update title and subtitle for plot
-        fig.update_layout(title=f"Coulomb Friction for a Block on a Horizontal Plane:"
-                                f"<br><sup>Initial Velocity: {response.init_velocity} m/s, "
-                                f"Friction Coefficient: {response.coef_friction}, "
-                                f"Gravity: {response.gravity} m/s^2</sup>")
-        fig.show()
+# @blp.route("/friction/plot/<int:friction_id>")
+# class PlotCoulombFriction(MethodView):
+#     @blp.response(200, PlainFrictionSchema)
+#     def get(self, friction_id):
+#         logger.info(f"Plotting data for id: {friction_id}")
+#         response = FrictionModel.query.get_or_404(friction_id)
+#
+#         indices = json.loads(response.idx)
+#         velocities = json.loads(response.velocities)
+#         distances = json.loads(response.distances)
+#
+#         fig = make_subplots(rows=2, subplot_titles=("Position vs. Time", "Velocity vs. Time"))
+#         # Add traces
+#         fig.add_trace(go.Scatter(x=indices, y=distances, name="Distance"), row=1, col=1)
+#         fig.add_trace(go.Scatter(x=indices, y=velocities, name="Velocity"), row=2, col=1)
+#
+#         # Update xaxis properties
+#         fig.update_xaxes(title_text="Time (s)", row=1, col=1)
+#         fig.update_xaxes(title_text="Time (s)", row=2, col=1)
+#
+#         # Update yaxis properties
+#         fig.update_yaxes(title_text="Position (m)", row=1, col=1)
+#         fig.update_yaxes(title_text="Velocity (m/s)", row=2, col=1)
+#
+#         # Update title and subtitle for plot
+#         fig.update_layout(title=f"Coulomb Friction for a Block on a Horizontal Plane:"
+#                                 f"<br><sup>Initial Velocity: {response.init_velocity} m/s, "
+#                                 f"Friction Coefficient: {response.coef_friction}, "
+#                                 f"Gravity: {response.gravity} m/s^2</sup>")
+#         fig.show()
 
 
 @blp.route("/friction/<int:friction_id>")
