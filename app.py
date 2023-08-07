@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 from db import db
 import models
 
+# Route blueprints/sources for each engineering formula
 from resources.home import blp as HomeBlueprint
 from resources.friction import blp as FrictionBlueprint
 
@@ -81,6 +82,7 @@ def create_app(db_url=None):
     # def missing_token_callback(error):
     #     jsonify({"description": "Request does not contain an access token.", "error": "authorization_required"}), 401
 
+    # Add the blueprints to the API (i.e. add the API routes)
     api.register_blueprint(HomeBlueprint)
     api.register_blueprint(FrictionBlueprint)
     return app
