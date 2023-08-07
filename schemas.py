@@ -10,9 +10,9 @@ from marshmallow import Schema, fields
 
 class PlainFrictionSchema(Schema):
     id = fields.Int(dump_only=True)
-    init_velocity = fields.Float()
-    coef_friction = fields.Float()
-    gravity = fields.Float()
+    init_velocity = fields.Float(required=True)
+    coef_friction = fields.Float(required=True)
+    gravity = fields.Float(required=True)
 
 
 class FrictionSchema(PlainFrictionSchema):
