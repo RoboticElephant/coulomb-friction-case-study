@@ -11,7 +11,6 @@ This is considered a dry friction. This simply means that there isn't any lubric
 
 ## API Calls
 ### Coulomb Friction
-TODO
 #### GET all friction values
 ```
 <url>/friction
