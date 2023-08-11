@@ -1,5 +1,5 @@
-# Tenaris Case Study
-This is a case study for Tenaris. The purpose isd to output Coulomb friction
+# Interview Case Study
+This is a case study for <company>. The purpose is to output Coulomb friction
 
 ## Coulomb Friction
 This is considered a dry friction. This simply means that there isn't any lubricant between the two surfaces.

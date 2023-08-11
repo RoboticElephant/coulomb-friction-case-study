@@ -22,7 +22,7 @@ def create_app(db_url=None):
     load_dotenv()
 
     # Title of the API
-    app.config["API_TITLE"] = "Tenaris Case Study REST API"
+    app.config["API_TITLE"] = "Coulomb Friction Case Study REST API"
     # Version
     app.config["API_VERSION"] = "v1"
     # OpenAPI Version
