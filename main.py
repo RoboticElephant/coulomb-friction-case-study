@@ -3,10 +3,12 @@ import requests
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 
+# This was only used to plot the data. The real work here is the creation of the REST API.
 
-def plot_friction(id, url="http://127.0.0.1:5005"):
+
+def plot_friction(db_id, url="http://127.0.0.1:5005"):
     # Get velocity and distance for given Friction
-    response = requests.get(f"{url}/friction/{id}")
+    response = requests.get(f"{url}/friction/{db_id}")
     if response.status_code != 200:
         raise ValueError("Invalid ID entered or issue with the server.")
 
@@ -49,7 +51,7 @@ def run_and_plot_coulomb_friction():
     try:
         plot_friction(id_selected)
     except ValueError:
-        print(f"There is an issue with the id: {id_selected}. Was not able to plot data.")
+        print(f"There is an issue with the db_id: {id_selected}. Was not able to plot data.")
 
 
 if __name__ == '__main__':
